@@ -1,0 +1,25 @@
+{
+  "name": "memory-watcher",
+  "version": "1.0.0",
+  "description": "memory watcher",
+  "repository": "https://github.com/IslamWahid/memory-watcher",
+  "author": "IslamWahid",
+  "keywords": [
+    "memory",
+    "memory-leak-detection",
+    "memory-leak"
+  ],
+  "main": "index.js",
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  },
+  "dependencies": {
+    "heap-profile": "^0.3.2",
+    "heapdump": "^0.3.12",
+    "node-memwatch": "^1.0.1"
+  }
+}
