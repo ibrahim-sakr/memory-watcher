@@ -1,5 +1,7 @@
 # Memory-watcher
 
+[![npm version](https://badge.fury.io/js/memory-watcher.svg)](https://badge.fury.io/js/memory-watcher)
+
 ## Installation
 
 `npm i memory-watcher`
