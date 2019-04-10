@@ -9,24 +9,42 @@
 
 `npm i memory-watcher`
 
+note: you need Node js version >= 8
+
 ## Usage
 
  (optional) create directory for the dumps to be saved into
   
 ```shell
-  cd project_directory
-  mkdir dumps
+cd project_directory
+mkdir dumps
 ```
 
  then you can start using the library by providing the path to the directory
  you created.
 
 ```javascript
-  const path = require('path');
-  const memoryWatcher = require('memory-watcher');
+const path = require('path');
+const memoryWatcher = require('memory-watcher');
 
-  const dumpsPath = path.join(__dirname, 'dumps');
-  memoryWatcher(dumpsPath);
+const localConfig = {
+  "env": "dev",
+  "engine": "local",
+  "path": path.join(__dirname, 'dumps')
+};
+
+const s3Config = {
+  "env": "dev",
+  "engine": "s3",
+  "access_key_id": "",
+  "secret_access_key": "",
+  "bucket": "",
+  "key": ""
+};
+
+memoryWatcher.init(localConfig); // or s3Config
+
+memoryWatcher.watch();
 ```
 
 ## Description
