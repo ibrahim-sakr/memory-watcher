@@ -1,11 +1,6 @@
 let configs = require('../config.json');
 
-const validateConfig = (configs) => {
-    if (!configs.path) throw Error("you must define a path to save the dumps");
-};
-
 module.exports.set = (userConfigs = {}) => {
-    validateConfig(userConfigs);
     configs = { ...configs, ...userConfigs };
 };
 

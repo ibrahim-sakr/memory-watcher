@@ -23,43 +23,15 @@ const checkEngine = () => {
   const engine = config.get('engine');
   switch (config.get('engine')) {
     case 'local':
-      return setupLocal();
+      return new LocalEngine();
 
     case 's3':
-      return setupS3();
+      return new S3Engine();
 
     default:
-      throw Error('type ' + engine + ' is Not Supported only local and s3');
+      throw Error('type ' + engine + ' is Not Supported. only local and s3');
   }
 }
-
-const setupLocal = () => {
-  const configs = {
-    type: 'local',
-    path: config.get('path')
-  };
-
-  // check if the path exists or create it
-  return new LocalEngine(configs);
-};
-
-const setupS3 = () => {
-  const configs = {
-    type: 's3',
-    config: {
-      accessKeyId: config.get('access_key_id'),
-      secretAccessKey: config.get('secret_access_key')
-    },
-    params: {
-      Body: "",
-      Bucket: config.get('bucket'),
-      Key: config.get('key')
-    }
-  }
-
-  // try to connect
-  return new S3Engine(configs);
-};
 
 const startWatching = (engine) => {
   heapProfile.start();
@@ -73,12 +45,12 @@ const startWatching = (engine) => {
   });
 };
 
-const genarateName = (type, info) => {
-  return `${path.sep}${type}-${Date.now()}-${info}.${type}`;
+const getPath = (type, info) => {
+  return `${os.tmpdir()}${path.sep}${type}-${Date.now()}-${info}.${type}`;
 };
 
 const writeProfile = (type, engine) => {
-  const path = os.tmpdir() + genarateName('heapprofile', type);
+  const path = getPath('heapprofile', type);
   heapProfile.write(path, (err, filename) => {
     if (err) return log(err, 'error');
     log('heapProfile written to ' + filename, 'info');
@@ -88,7 +60,7 @@ const writeProfile = (type, engine) => {
 
 const writeSnapshot = (type, engine) => {
   if (config.get('env') != 'dev') return;
-  const path = os.tmpdir() + genarateName('heapsnapshot', type);
+  const path = getPath('heapsnapshot', type);
   heapDump.writeSnapshot(path, (err, filename) => {
     if (err) return log(err, 'error');
     log('heapSnapshot written to ' + filename, 'info');
